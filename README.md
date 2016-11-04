@@ -9,7 +9,9 @@ An alternative to the scripts below is my BiocCheck [fork](https://github.com/ke
 devtools::install_github("kevinrue/BiocCheck")
 ```
 
-Note however, at the moment (**Fri 4 Nov**), my fork is up to date with the Bioconductor-mirror [master](https://github.com/Bioconductor-mirror/BiocCheck/network) branch, which means I am using the latest code on the devel branch. However, if the original package gets updated without integrating my changes, I will need to merge those changes from the original branch into my fork to run the combination of the latest official code and my changes.
+### Disclaimer
+
+Note that at the moment (**Fri 4 Nov**), my fork is up to date with the Bioconductor-mirror [master](https://github.com/Bioconductor-mirror/BiocCheck/network) branch, which means I am using the latest code on the devel branch. However, if the original package gets updated without integrating my changes, I will need to merge the changes from the original branch into my fork to run the combination of the latest official code and my changes.
 
 ## Motivation
 
