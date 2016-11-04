@@ -1,6 +1,10 @@
 # BiocCheckTools
 _Scripts to complement R CMD BiocCheck_
 
+## Update
+
+An alternative to the scripts below is my BiocCheck [fork](https://github.com/kevinrue/BiocCheck), in which I edited the code to display up to the first 6 lines offending the BiocCheck rules mentioned below.
+
 ## Motivation
 
 If you are familiar with any of the following messages when running `R CMD BiocCheck <dir>`:
@@ -10,6 +14,7 @@ If you are familiar with any of the following messages when running `R CMD BiocC
   and vignette source...
     * NOTE: Consider shorter lines; 1 lines (0%) are > 80 characters
       long.
+    * NOTE: Consider 4 spaces instead of tabs; 4 lines (0%) contain tabs.
     * NOTE: Consider indenting lines with a multiple of 4 spaces; 1
       lines (0%) are not.
 ```
