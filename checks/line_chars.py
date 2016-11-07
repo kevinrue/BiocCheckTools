@@ -2,8 +2,9 @@
 # !/usr/bin/python2.7
 # !/usr/bin/python3
 
-# usage:
-# script.py rootFolder filesFile
+import argparse
+
+from utils import files
 
 
 def checkLines(list, max_length):
@@ -23,7 +24,7 @@ def checkFile(pkgRootDir, file, max_length):
         lines = f.readlines()
         problems = checkLines(lines, max_length)
     for pb in problems:
-        print("%s\t(line %i): %i chars" % (trimmedFile, pb[0], pb[1]))
+        print("%s\t(line %i)\t%i chars" % (trimmedFile, pb[0], pb[1]))
     return len(problems)
 
 
@@ -36,4 +37,37 @@ def check(pkgRootDir, files, max_length):
     for file in files:
         total += checkFile(pkgRootDir, file, max_length)
 
-    print("\n=== Summary: %i lines > %i characters long. ===" % (total, max_length))
+    print("\n=== Summary: %i lines > %i characters long. ===\n" % (total, max_length))
+    return total
+
+
+def main(path, max_char):
+    # List files to check
+    checkFiles = files.listPackageFiles(path)
+    # call script to check line length
+    check(path, checkFiles, max_char)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description="Identify lines > N characters long."
+    )
+
+    parser.add_argument(
+        '--max_char', metavar='N', default=80, type=int,
+        help='The maximum number of characters allowed in a line.'
+    )
+
+    parser.add_argument(
+        'path', metavar='/path/to/package',
+        help='Path to the package folder.'
+    )
+
+    # Parse command line
+    args = parser.parse_args()
+
+    # Rename arguments for convenience
+    pkgDir = args.path
+    max_char = args.max_char
+
+    main(pkgDir, max_char)

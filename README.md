@@ -3,7 +3,11 @@ _Scripts to complement R CMD BiocCheck_
 
 ## Update
 
-An alternative to the scripts below is my BiocCheck [fork](https://github.com/kevinrue/BiocCheck), in which I edited the code to display up to the first 6 lines offending the BiocCheck rules mentioned below. That fork can be installed as follows:
+An alternative to the scripts below is my BiocCheck
+[fork](https://github.com/kevinrue/BiocCheck),
+in which I edited the code to display up to the first 6 lines
+offending the BiocCheck rules mentioned below.
+That fork can be installed as follows:
 
 ```
 devtools::install_github("kevinrue/BiocCheck")
@@ -11,7 +15,14 @@ devtools::install_github("kevinrue/BiocCheck")
 
 ### Disclaimer
 
-Note that at the moment (**Fri 4 Nov**), my fork is up to date with the Bioconductor-mirror [master](https://github.com/Bioconductor-mirror/BiocCheck/network) branch, which means I am using the latest code on the officilal devel branch. However, if the original package gets updated without integrating my changes, I will need to merge the changes from the original branch into my fork to run the combination of the latest official code and my changes.
+Note that at the moment (**Fri 4 Nov**), my fork is up to date with the
+Bioconductor-mirror
+[master](https://github.com/Bioconductor-mirror/BiocCheck/network)
+branch, which means I am using the latest code on the officilal devel
+branch. However, if the original package gets updated without
+integrating my changes, I will need to merge the changes from the
+original branch into my fork to run the combination of the latest
+official code and my changes.
 
 ## Motivation
 
@@ -27,31 +38,87 @@ If you are familiar with any of the following messages when running `R CMD BiocC
       lines (0%) are not.
 ```
 
-And you wish to rapidly find those problematic lines, then those scripts are for you.
+And you wish to rapidly find those problematic lines, then the
+following scripts should be useful to you.
 
 ## Overview
 
-My typical usage is, assuming the _Bioconductor_ package folder is `path/to/TVTB`
+My typical usage is, assuming the _Bioconductor_ package folder is
+`/path/to/package` (relative paths work too)
 
 ```
-cd /path/to
-listRpackage.sh TVTB > TVTBcheckFiles.txt
-4spacetabs.py TVTBcheckFiles.txt
-line_chars.py TVTBcheckFiles.txt
+BiocCheck.py /path/to/package
 ```
 
-The output would then look like this:
+Alternatively, the individual modules may be called separately:
 
 ```
-$4spacetabs.py TVTBcheckFiles.txt
-TVTB/man/TVTBParam-class.Rd:58: The \code{TVTBparam} class stores recurrent parameters of the \code{TVTB}zzzzzzz
-1 lines not indented by a multiple of 4 spaces detected
+line_chars.py /path/to/package
 ```
-and
+
+And also:
+
 ```
-# line_chars.py TVTBcheckFiles.txt
-TVTB/man/TVTBParam-class.Rd:58: The \code{TVTBparam} class stores recurrent parameters of the \code{TVTB}zzzzzzz
-1 lines over 80 characters long
+tab_width.py /path/to/package
+```
+
+The output then looks like this (_truncated for readability_):
+
+```
+$ BiocCheck.py git/BiocCheck
+
+  * Searching for files to check *
+
+Found 5 *.R file(s) in R/ subdirectory
+Found 1 *.Rd file(s) in man/ subdirectory
+Found 1 *.Rmd file(s) in vignettes/ subdirectory
+
+  * Searching for lines > 80 characters *
+
+R/BiocCheck.R	(line 11)	92 chars
+R/BiocCheck.R	(line 102)	86 chars
+R/BiocCheck.R	(line 107)	90 chars
+R/BiocCheck.R	(line 111)	89 chars
+R/BiocCheck.R	(line 153)	83 chars
+R/BiocCheck.R	(line 217)	83 chars
+R/BiocCheck.R	(line 238)	134 chars
+R/checks.R	(line 153)	109 chars
+R/checks.R	(line 165)	82 chars
+[... truncated for readability ...]
+R/util.R	(line 126)	88 chars
+R/util.R	(line 132)	81 chars
+R/util.R	(line 217)	83 chars
+vignettes/BiocCheck.Rmd	(line 159)	91 chars
+vignettes/BiocCheck.Rmd	(line 268)	93 chars
+vignettes/BiocCheck.Rmd	(line 397)	95 chars
+
+=== Summary: 30 lines > 80 characters long. ===
+  * Searching for lines not indented by a multiple of 4 spaces *
+
+git/BiocCheck/DESCRIPTION	(line 12)	9 spaces
+git/BiocCheck/DESCRIPTION	(line 14)	10 spaces
+git/BiocCheck/R/checks.R	(line 241)	31 spaces
+git/BiocCheck/R/checks.R	(line 1192)	13 spaces
+git/BiocCheck/R/checks.R	(line 1194)	13 spaces
+git/BiocCheck/R/util.R	(line 287)	7 spaces
+git/BiocCheck/man/BiocCheck.Rd	(line 19)	2 spaces
+git/BiocCheck/man/BiocCheck.Rd	(line 22)	2 spaces
+git/BiocCheck/vignettes/BiocCheck.Rmd	(line 3)	2 spaces
+git/BiocCheck/vignettes/BiocCheck.Rmd	(line 18)	2 spaces
+git/BiocCheck/vignettes/BiocCheck.Rmd	(line 19)	2 spaces
+git/BiocCheck/vignettes/BiocCheck.Rmd	(line 20)	2 spaces
+[... truncated for readability ...]
+git/BiocCheck/vignettes/BiocCheck.Rmd	(line 460)	2 spaces
+git/BiocCheck/vignettes/BiocCheck.Rmd	(line 463)	2 spaces
+git/BiocCheck/vignettes/BiocCheck.Rmd	(line 464)	2 spaces
+git/BiocCheck/vignettes/BiocCheck.Rmd	(line 465)	2 spaces
+
+=== Summary: 101 lines not indented by a multiple of 4 spaces. ===
+
+=== Global summary ===
+  30 lines > 80 characters long.
+  101 lines not indented by multiple of 4 spaces.
+
 ```
 
 ## Installation
@@ -60,55 +127,55 @@ Clone the repository and add the folder on your `$PATH`:
 
 ```
 git clone git@github.com:kevinrue/BiocCheckTools.git
-export PATH=$PATH:$(pwd)
+export PATH=$PATH:$(pwd)/BiocCheckTools
 ```
 
-## listRpackage.sh
+## BiocCheck.py
 
 ### Purpose
 
-List all files checked by `R CMD BioCheck` in a file.
+Identify lines offending certain Bioconductor guidelines:
+
+* lines > 80 characters
+* lines not indented by multiple of 4 spaces
 
 ### Usage
 
 ```
-listRfiles.sh pkgdir
+usage: BiocCheck.py [-h] [--max_char length] [--tab_width width]
+                    /path/to/package
 ```
 
-### Notes
-
-The script prints the filenames in the `stdout`, which must be redirected to a file.
-
-## 4spacetabs.py
+## line_chars.py
 
 ### Purpose
 
-Print the lines that are not indented with a multiple of 4 spaces. The useful bit here is that each line is displayed along with the corresponding filename and line number to rapidly find and correct it.
+Identify lines > N characters long.
+
+The useful addition to the _Bioconductor_
+[BiocCheck](https://bioconductor.org/packages/release/bioc/html/BiocCheck.html)
+package is that each offending line is displayed along with the
+corresponding filename and line number to rapidly find and correct it.
 
 ### Usage
 
 ```
-4spacetabs.py [-h] [--root rootFolder] listFiles.txt
+usage: line_chars.py [-h] [--max_char length] /path/to/package
 ```
 
-### Notes
-
-* `listFiles.txt` is the file generated by the `listRfiles.sh` script above.
-* `4spacetabs.py` must be called from the same directory as `listRfiles.sh` was called or with `--root` set to that same directory, as relative file paths are stored in `listFiles.txt`.
-
-## 4spacetabs.py
+## tab_width.py
 
 ### Purpose
 
-Print the lines that are > 80 characters long. The useful bit here is that each line is displayed along with the corresponding filename and line number to rapidly find and correct it.
+Identify lines not indented by a multiple of N spaces.
+
+The useful addition to the _Bioconductor_
+[BiocCheck](https://bioconductor.org/packages/release/bioc/html/BiocCheck.html)
+package is that each offending line is displayed along with the
+corresponding filename and line number to rapidly find and correct it.
 
 ### Usage
 
 ```
-line_chars.py [-h] [--root rootFolder] [--max N] listFiles.txt
+usage: tab_width.py [-h] [--width 4] /path/to/package
 ```
-
-### Notes
-
-* `listFiles.txt` is the file generated by the `listRfiles.sh` script above.
-* `4spacetabs.py` must be called from the same directory as `listRfiles.sh` was called or with `--root` set to that same directory, as relative file paths are stored in `listFiles.txt`.

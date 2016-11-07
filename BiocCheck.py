@@ -2,108 +2,52 @@
 #!/usr/bin/python2.7
 #!/usr/bin/python3
 
-# usage:
-# script.py rootFolder filesFile
-
 import argparse
-import glob
-import os
 
-import checks.line_chars
+from checks import line_chars
+from checks import tab_width
+from checks.utils import files
 
-parser = argparse.ArgumentParser(
-    description="Identify lines offending certain Bioconductor guidelines."
-)
 
-parser.add_argument(
-    '--max_char', metavar='length', default=80, type=int,
-    help='The maximum number of characters allowed per line.'
-)
+def main(path, chars, tab):
+    # List files to check
+    checkFiles = files.listPackageFiles(pkgDir)
+    # call script to check line length
+    lineCharsCount = line_chars.check(pkgDir, checkFiles, chars)
+    # call script to check tabulation width
+    tabWidthCount = tab_width.check(pkgDir, checkFiles, tab)
+    print "\n=== Global summary ==="
+    print "  %i lines > %i characters long." % (lineCharsCount, chars)
+    print "  %i lines not indented by multiple of %i spaces." % (tabWidthCount, tab)
+    print ""
 
-parser.add_argument(
-    '--tab_width', metavar='width', default=4, type=int,
-    help='The number of spaces required in a tabulation.'
-)
 
-parser.add_argument('path', metavar='/path/to/package',
-    help='Path to the package folder.')
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description="Identify lines offending certain Bioconductor guidelines."
+    )
 
-args = parser.parse_args()
+    parser.add_argument(
+        '--max_char', metavar=80, default=80, type=int,
+        help='The maximum number of characters allowed in a line.'
+    )
 
-pkgDir = args.path
-max_char = args.max_char
-tab_width = args.tab_width
+    parser.add_argument(
+        '--tab_width', metavar=4, default=4, type=int,
+        help='The number of spaces required in a tabulation.'
+    )
 
-checkFiles = []
+    parser.add_argument(
+        'path', metavar='/path/to/package',
+        help='Path to the package folder.'
+    )
 
-print "\n  * Searching for files to check *\n"
+    # Parse command line
+    args = parser.parse_args()
 
-# Add DESCRIPTION file to check list ----
+    # Rename arguments for convenience
+    pkgDir = args.path
+    chars = args.max_char
+    tab = args.tab_width
 
-DESCRIPTIONfile = os.path.join(pkgDir, "DESCRIPTION")
-
-if not os.path.exists(DESCRIPTIONfile):
-    raise IOError("DESCRIPTION file not found in %s" % pkgDir)
-
-checkFiles.append(DESCRIPTIONfile)
-
-# Add NAMESPACE file to check list ----
-
-NAMESPACEfile = os.path.join(pkgDir, "NAMESPACE")
-
-if not os.path.exists(NAMESPACEfile):
-    raise IOError("NAMESPACE file not found in %s" % pkgDir)
-
-checkFiles.append(NAMESPACEfile)
-
-# Find *.R files in R/ subdirectory ----
-
-Rfolder = os.path.join(pkgDir, "R")
-
-if not os.path.exists(Rfolder):
-    raise IOError("R/ subdirectory not found in %s" % Rfolder)
-
-if not os.path.isdir(Rfolder):
-    raise IOError("%s is not a directory" % Rfolder)
-
-Rfiles = glob.glob(os.path.join(Rfolder, "*.R"))
-checkFiles += Rfiles
-print("Found %i *.R file(s) in R/ subdirectory" % len(Rfiles))
-
-# Find R documentation files in man/ subdirectory ----
-
-manFolder = os.path.join(pkgDir, "man")
-
-if not os.path.exists(manFolder):
-    raise IOError("man/ subdirectory not found in %s" % manFolder)
-
-if not os.path.isdir(manFolder):
-    raise IOError(u"{0:s} is not a directory".format(manFolder))
-
-manFiles = glob.glob(os.path.join(manFolder, "*.Rd"))
-checkFiles += manFiles
-print("Found %i *.Rd file(s) in man/ subdirectory" % len(manFiles))
-
-# Find R vignette files in vignettes/ subdirectory ----
-
-vignetteFolder = os.path.join(pkgDir, "vignettes")
-
-if not os.path.exists(vignetteFolder):
-    raise IOError("man/ subdirectory not found in %s" % vignetteFolder)
-
-if not os.path.isdir(vignetteFolder):
-    raise IOError("%s is not a directory" % vignetteFolder)
-
-for extension in ["Rmd", "Rnw", "Rrst", "Rhtml", "Rtex"]:
-    extension = "*.{0}".format(extension)
-    vignetteFiles = glob.glob(os.path.join(vignetteFolder, extension))
-    checkFiles += vignetteFiles
-    if (len(vignetteFiles)):
-        print("Found %i %s file(s) in vignettes/ subdirectory" % (len(vignetteFiles), extension))
-
-print ""
-
-checks.line_chars.check(pkgDir, checkFiles, max_char)
-
-# call script to check line length
-# call script to check tabulation width
+    main(pkgDir, chars, tab)
