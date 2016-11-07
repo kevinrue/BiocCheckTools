@@ -162,7 +162,7 @@ corresponding filename and line number to rapidly find and correct it.
 ### Usage
 
 ```
-usage: line_chars.py [-h] [--max_char length] /path/to/package
+usage: line_chars.py [-h] [--chars 80] /path/to/package
 ```
 
 ## tab_width.py
