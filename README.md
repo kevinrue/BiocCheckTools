@@ -44,7 +44,7 @@ following scripts should be useful to you.
 ## Overview
 
 My typical usage is, assuming the _Bioconductor_ package folder is
-`/path/to/package` (relative paths work too)
+`/path/to/package` (relative paths work too):
 
 ```
 BiocCheck.py /path/to/package
