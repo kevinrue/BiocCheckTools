@@ -62,7 +62,7 @@ And also:
 tab_width.py /path/to/package
 ```
 
-The output then looks like this (_truncated for readability_):
+The output of the master/wrapper script looks like this (_truncated for readability_):
 
 ```
 $ BiocCheck.py git/BiocCheck
@@ -78,10 +78,6 @@ Found 1 *.Rmd file(s) in vignettes/ subdirectory
 R/BiocCheck.R	(line 11)	92 chars
 R/BiocCheck.R	(line 102)	86 chars
 R/BiocCheck.R	(line 107)	90 chars
-R/BiocCheck.R	(line 111)	89 chars
-R/BiocCheck.R	(line 153)	83 chars
-R/BiocCheck.R	(line 217)	83 chars
-R/BiocCheck.R	(line 238)	134 chars
 R/checks.R	(line 153)	109 chars
 R/checks.R	(line 165)	82 chars
 [... truncated for readability ...]
@@ -105,9 +101,6 @@ git/BiocCheck/R/util.R	(line 287)	7 spaces
 git/BiocCheck/man/BiocCheck.Rd	(line 19)	2 spaces
 git/BiocCheck/man/BiocCheck.Rd	(line 22)	2 spaces
 git/BiocCheck/vignettes/BiocCheck.Rmd	(line 3)	2 spaces
-git/BiocCheck/vignettes/BiocCheck.Rmd	(line 18)	2 spaces
-git/BiocCheck/vignettes/BiocCheck.Rmd	(line 19)	2 spaces
-git/BiocCheck/vignettes/BiocCheck.Rmd	(line 20)	2 spaces
 [... truncated for readability ...]
 git/BiocCheck/vignettes/BiocCheck.Rmd	(line 460)	2 spaces
 git/BiocCheck/vignettes/BiocCheck.Rmd	(line 463)	2 spaces
