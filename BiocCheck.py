@@ -9,6 +9,8 @@ import argparse
 import glob
 import os
 
+import checks.line_chars
+
 parser = argparse.ArgumentParser(
     description="Identify lines offending certain Bioconductor guidelines."
 )
@@ -28,13 +30,13 @@ parser.add_argument('path', metavar='/path/to/package',
 
 args = parser.parse_args()
 
-print("Package path:\t\t%s" % args.path)
-print("Max characters:\t\t%i" % args.max_char)
-print("Tabulation width:\t%s" % args.tab_width)
-
 pkgDir = args.path
+max_char = args.max_char
+tab_width = args.tab_width
 
 checkFiles = []
+
+print "\n  * Searching for files to check *\n"
 
 # Add DESCRIPTION file to check list ----
 
@@ -49,10 +51,10 @@ checkFiles.append(DESCRIPTIONfile)
 
 NAMESPACEfile = os.path.join(pkgDir, "NAMESPACE")
 
-if not os.path.exists(DESCRIPTIONfile):
+if not os.path.exists(NAMESPACEfile):
     raise IOError("NAMESPACE file not found in %s" % pkgDir)
 
-checkFiles.append(DESCRIPTIONfile)
+checkFiles.append(NAMESPACEfile)
 
 # Find *.R files in R/ subdirectory ----
 
@@ -99,4 +101,9 @@ for extension in ["Rmd", "Rnw", "Rrst", "Rhtml", "Rtex"]:
     if (len(vignetteFiles)):
         print("Found %i %s file(s) in vignettes/ subdirectory" % (len(vignetteFiles), extension))
 
-print(checkFiles)
+print ""
+
+checks.line_chars.check(pkgDir, checkFiles, max_char)
+
+# call script to check line length
+# call script to check tabulation width
