@@ -1,5 +1,5 @@
 # BiocCheckTools
-_Scripts to complement R CMD BiocCheck_
+_Scripts to follow up on R CMD BiocCheck_
 
 ## Update
 
