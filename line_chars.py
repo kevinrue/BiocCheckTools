@@ -50,7 +50,7 @@ def checkFile(path, file, max_length):
         lines = f.readlines()
         indices_problem = checkLines(lines, max_length)
     for i in indices_problem:
-        print("%s:%i: %s" % (file, i+1, lines[i].strip()))
+        print("%s\t(line %i)" % (file, i+1)) # lines[i].strip()
     return(len(indices_problem))
 
 for file in files_to_check:
