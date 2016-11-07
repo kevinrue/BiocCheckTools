@@ -93,6 +93,7 @@ vignettes/BiocCheck.Rmd	(line 268)	93 chars
 vignettes/BiocCheck.Rmd	(line 397)	95 chars
 
 === Summary: 30 lines > 80 characters long. ===
+
   * Searching for lines not indented by a multiple of 4 spaces *
 
 git/BiocCheck/DESCRIPTION	(line 12)	9 spaces
@@ -114,6 +115,7 @@ git/BiocCheck/vignettes/BiocCheck.Rmd	(line 464)	2 spaces
 git/BiocCheck/vignettes/BiocCheck.Rmd	(line 465)	2 spaces
 
 === Summary: 101 lines not indented by a multiple of 4 spaces. ===
+
 
 === Global summary ===
   30 lines > 80 characters long.
