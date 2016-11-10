@@ -26,7 +26,8 @@ official code and my changes.
 
 ## Motivation
 
-If you are familiar with any of the following messages when running `R CMD BiocCheck <dir>`:
+If you are familiar with any of the following messages when running
+ `R CMD BiocCheck <dir>`:
 
 ```
 * Checking formatting of DESCRIPTION, NAMESPACE, man pages, R source,
@@ -55,6 +56,13 @@ Alternatively, the individual modules may be called separately:
 ```
 line_chars.py /path/to/package
 tab_width.py /path/to/package
+```
+
+or in this way:
+
+```
+BiocCheck.py git/BiocCheck --mode line_chars
+BiocCheck.py /path/to/package --mode tab_width
 ```
 
 The output of the master/wrapper script looks like this (_truncated for readability_):
@@ -132,8 +140,19 @@ Identify lines offending certain Bioconductor guidelines:
 ### Usage
 
 ```
-usage: BiocCheck.py [-h] [--max_char length] [--tab_width width]
+usage: BiocCheck.py [-h] [--mode all] [--max_char 80] [--tab_width 4]
                     /path/to/package
+
+Identify lines offending certain Bioconductor guidelines.
+
+positional arguments:
+  /path/to/package  Path to the package folder.
+
+optional arguments:
+  -h, --help        show this help message and exit
+  --mode all        Modules to run. Choices: all, line_chars, tab_width.
+  --max_char 80     The maximum number of characters allowed in a line.
+  --tab_width 4     The number of spaces required in a tabulation.
 ```
 
 ## line_chars.py
@@ -151,6 +170,15 @@ corresponding filename and line number to rapidly find and correct it.
 
 ```
 usage: line_chars.py [-h] [--chars 80] /path/to/package
+
+Identify lines > [chars] characters long.
+
+positional arguments:
+  /path/to/package  Path to the package folder.
+
+optional arguments:
+  -h, --help        show this help message and exit
+  --chars 80        The maximum number of characters allowed in a line.
 ```
 
 ## tab_width.py
@@ -168,4 +196,13 @@ corresponding filename and line number to rapidly find and correct it.
 
 ```
 usage: tab_width.py [-h] [--width 4] /path/to/package
+
+Identify lines not indented by a multiple of [width] spaces.
+
+positional arguments:
+  /path/to/package  Path to the package folder.
+
+optional arguments:
+  -h, --help        show this help message and exit
+  --width 4         The number of spaces required in a tabulation.
 ```
