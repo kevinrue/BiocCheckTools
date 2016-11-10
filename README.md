@@ -54,11 +54,6 @@ Alternatively, the individual modules may be called separately:
 
 ```
 line_chars.py /path/to/package
-```
-
-And also:
-
-```
 tab_width.py /path/to/package
 ```
 
